@@ -2,10 +2,15 @@
   "name": "github-workflow-generator",
   "displayName": "GitHub Workflow Generator",
   "description": "Generate GitHub Actions workflow files for Django, Python, HTML, CSS, Firebase, PHP projects",
-  "version": "0.0.1",
-  "publisher": "your-publisher-name", 
+  "version": "1.0.0",
+  "license": "MIT",
+  "publisher": "HansArcherDalubatan", 
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanz-archer/VSCode-Workflow-Generator"
+  },
   "engines": {
-    "vscode": "^1.62.0"
+    "vscode": "^1.95.0"
   },
   "activationEvents": [
     "onCommand:github-workflow-generator.createWorkflow"
