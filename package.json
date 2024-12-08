@@ -1,0 +1,41 @@
+{
+  "name": "github-workflow-generator",
+  "displayName": "GitHub Workflow Generator",
+  "description": "Generate GitHub Actions workflow files for Django, Python, HTML, CSS, Firebase, PHP projects",
+  "version": "0.0.1",
+  "publisher": "your-publisher-name", 
+  "engines": {
+    "vscode": "^1.62.0"
+  },
+  "activationEvents": [
+    "onCommand:github-workflow-generator.createWorkflow"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "github-workflow-generator.createWorkflow",
+        "title": "Create GitHub Workflow"
+      }
+    ]
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.95.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.13.0",
+    "typescript": "^5.6.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
