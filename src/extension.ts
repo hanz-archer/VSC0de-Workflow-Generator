@@ -7,9 +7,9 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('GitHub Workflow Generator is now active!');
 
     let disposable = vscode.commands.registerCommand('github-workflow-generator.createWorkflow', async () => {
-		console.log('Creating GitHub Workflow...');  // Log to check if the command is triggered
+        console.log('Creating GitHub Workflow...');  // Log to check if the command is triggered
         const workflowType = await vscode.window.showQuickPick(
-            ['Django', 'Python', 'HTML/CSS with Firebase', 'PHP'],
+            ['Django', 'Python', 'HTML/CSS with Firebase', 'PHP', 'Static Website'],
             { placeHolder: 'Select the type of project' }
         );
 
@@ -31,21 +31,21 @@ export function activate(context: vscode.ExtensionContext) {
         const workflowContent = generateWorkflowContent(workflowType);
         const filePath = path.join(vscode.workspace.rootPath || '', '.github', 'workflows', workflowName);
 
-		try {
-			fs.mkdirSync(path.dirname(filePath), { recursive: true });
-			fs.writeFileSync(filePath, new TextEncoder().encode(workflowContent));
-			vscode.window.showInformationMessage(`Workflow file created successfully: ${filePath}`);
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				vscode.window.showErrorMessage(`Error creating workflow file: ${error.message}`);
-			} else {
-				vscode.window.showErrorMessage('An unknown error occurred.');
-			}
-		}		
+        try {
+            fs.mkdirSync(path.dirname(filePath), { recursive: true });
+            fs.writeFileSync(filePath, new TextEncoder().encode(workflowContent));
+            vscode.window.showInformationMessage(`Workflow file created successfully: ${filePath}`);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                vscode.window.showErrorMessage(`Error creating workflow file: ${error.message}`);
+            } else {
+                vscode.window.showErrorMessage('An unknown error occurred.');
+            }
+        }
     });
 
     context.subscriptions.push(disposable);
-	}
+}
 
 export function deactivate() {}
 
@@ -127,9 +127,9 @@ jobs:
           curl -sL https://firebase.tools | bash
       - name: Deploy to Firebase
         run: |
-          firebase deploy --token
+          firebase deploy --token #token
         env:
-          FIREBASE_TOKEN: 
+          FIREBASE_TOKEN: #ur token here
 `;
 
         case 'PHP':
@@ -153,6 +153,32 @@ jobs:
       - name: Run tests
         run: |
           vendor/bin/phpunit
+`;
+
+        case 'Static Website':
+            return `name: Deploy Static Website to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js (required for GitHub Pages)
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Build website (optional if using a build tool like webpack)
+        run: |
+          # You can add a build step if your site requires it, e.g., using npm run build
+          echo "Build step if needed"
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: #Ur github token
+          publish_dir: ./ # or the directory containing your static files
 `;
 
         default:
